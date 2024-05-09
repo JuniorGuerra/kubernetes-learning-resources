@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: ts-test
+  labels:
+    app: guestbook
+    tier: ts-test
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      tier: ts-test
+  template:
+    metadata:
+      labels:
+        tier: ts-test
+    spec:
+      containers:
+      - name: cont1
+        image: python:3.7-alpine
+        command: ['sh', '-c', 'echo cont1 > index.html && python -m http.server 8082']
+  
+
