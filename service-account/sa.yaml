@@ -26,5 +26,27 @@ spec:
       containers:
       - name: nginx
         image: nginx:alpine
-
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: read-pods
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["pods"]
+  verbs: ["get", "watch", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  namespace: default
+  name: sa-pods
+subjects:
+  - kind: ServiceAccount
+    name: my-sa
+roleRef:
+  kind: Role
+  name: sa-reader
+  apiGroup: rbac.authorization.k8s.io
 
